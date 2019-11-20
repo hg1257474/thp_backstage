@@ -1,4 +1,5 @@
 {
   "main.js": "bundle.js",
+  "vendors~main.js": "vendors~main.bundle.js",
   "index.html": "index.html"
 }

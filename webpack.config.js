@@ -7,7 +7,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 module.exports = {
   devtool: 'eval-source-map',
   mode: 'development',
-  entry: __dirname + '/app/index.tsx',
+  entry: __dirname + '/src/index.tsx',
   output: {
     path: __dirname + '/public',
     filename: 'bundle.js'
@@ -79,6 +79,11 @@ module.exports = {
   //     }
   //   }
   // },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  },
   devServer: {
     contentBase: './public', //本地服务器所加载的页面所在的目录
     historyApiFallback: true, //不跳转
