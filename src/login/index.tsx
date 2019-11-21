@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import Axios from 'axios';
-
+import './index.css';
 const NormalLoginForm = (props: any) => {
+  console.log(props);
   const handleSubmit = e => {
     e.preventDefault();
-    props.form.validateFields((err: any, values: any) => {
+    props.form.validateFields(async (err: any, values: any) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        alert(await Axios.post('login', values));
       }
     });
   };
@@ -17,7 +19,7 @@ const NormalLoginForm = (props: any) => {
     <Form onSubmit={handleSubmit} className="login-form">
       <Form.Item>
         {getFieldDecorator('username', {
-          rules: [{ required: true, message: 'Please input your username!' }]
+          rules: [{ required: true, message: '请输入用户名!' }]
         })(
           <Input
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -27,7 +29,7 @@ const NormalLoginForm = (props: any) => {
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('password', {
-          rules: [{ required: true, message: 'Please input your Password!' }]
+          rules: [{ required: true, message: '请输入密码!' }]
         })(
           <Input
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}

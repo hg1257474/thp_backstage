@@ -41,6 +41,7 @@ module.exports = {
     new ManifestPlugin(),
     new HtmlWebpackPlugin({
       title: 'output html',
+      filename: 'login.html',
       template: 'src/index.html',
       hash: true
     }),
