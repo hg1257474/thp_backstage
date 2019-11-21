@@ -39,15 +39,8 @@ const NormalLoginForm = (props: any) => {
         )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('remember', {
-          valuePropName: 'checked',
-          initialValue: true
-        })(<Checkbox>Remember me</Checkbox>)}
-        <a className="login-form-forgot" href="">
-          Forgot password
-        </a>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
+        <Button type="primary" htmlType="submit" className="login-form-button" block>
+          登录
         </Button>
       </Form.Item>
     </Form>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Table, Button, Divider, Popconfirm } from 'antd';
 import Axios from 'axios';
-export default (props: { target: string }) => {
-  const { target } = props;
+export default (props: { target: string; haveTime: boolean }) => {
+  const { target, haveTime } = props;
+  const { data, setData } = useState([]);
   console.log(props);
   const columns = [
     {
@@ -10,11 +11,7 @@ export default (props: { target: string }) => {
       dataIndex: 'name',
       key: 'name'
     },
-    {
-      title: '时间',
-      dataIndex: 'time',
-      key: 'time'
-    },
+
     {
       title: '操作',
       dataIndex: 'id',
@@ -39,5 +36,11 @@ export default (props: { target: string }) => {
       }
     }
   ];
-  return <Table columns={columns} />;
+  if (haveTime)
+    columns.push({
+      title: '时间',
+      dataIndex: 'time',
+      key: 'time'
+    });
+  return <Table columns={columns} dataSource={data} />;
 };
