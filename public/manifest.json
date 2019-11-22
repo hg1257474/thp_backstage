@@ -1,5 +1,9 @@
 {
-  "index.js": "index7f413fb87ae33dc638cd.js",
-  "vendors~index.js": "vendors~index7f413fb87ae33dc638cd.js",
-  "index.html": "index.html"
+  "index.js": "index4081ca2097604dd4d0f3.js",
+  "login.js": "login4081ca2097604dd4d0f3.js",
+  "vendors~index.js": "vendors~index4081ca2097604dd4d0f3.js",
+  "vendors~index~login.js": "vendors~index~login4081ca2097604dd4d0f3.js",
+  "vendors~login.js": "vendors~login4081ca2097604dd4d0f3.js",
+  "index.html": "index.html",
+  "login.html": "login.html"
 }
