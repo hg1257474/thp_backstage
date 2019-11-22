@@ -1,5 +1,5 @@
 {
-  "main.js": "bundle.js",
-  "vendors~main.js": "vendors~main.bundle.js",
-  "login.html": "login.html"
+  "index.js": "index7f413fb87ae33dc638cd.js",
+  "vendors~index.js": "vendors~index7f413fb87ae33dc638cd.js",
+  "index.html": "index.html"
 }

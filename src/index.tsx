@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import 'core-js/stable';
 import '@babel/runtime/regenerator';
 render(
-  <BrowserRouter>
+  <BrowserRouter basename="/admin">
     <App />
   </BrowserRouter>,
   document.querySelector('#root')

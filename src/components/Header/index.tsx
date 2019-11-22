@@ -6,7 +6,11 @@ export default () => {
   const history = useHistory();
   return (
     <header>
-      <Menu mode="horizontal" onClick={e => history.push(e.key)}>
+      <Menu
+        style={{ textAlign: 'center', background: 'white' }}
+        mode="horizontal"
+        onClick={e => history.push(e.key)}
+      >
         <Menu.Item key="product_center">产品中心</Menu.Item>
         <Menu.Item key="product_specification">产品规格</Menu.Item>
         <Menu.Item key="news_center">新闻中心</Menu.Item>

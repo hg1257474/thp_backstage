@@ -7,10 +7,13 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 module.exports = {
   devtool: 'eval-source-map',
   mode: 'development',
-  entry: __dirname + '/src/index.tsx',
+  entry: {
+    // login: __dirname + '/src/login/index.tsx',
+    index: __dirname + '/src/index.tsx'
+  },
   output: {
     path: __dirname + '/public',
-    filename: 'bundle.js'
+    filename: '[name][hash].js'
   },
   module: {
     rules: [
@@ -37,12 +40,20 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
     new ManifestPlugin(),
+    // new HtmlWebpackPlugin({
+    //   title: 'login html',
+    //   filename: 'login.html',
+    //   template: 'src/login.html',
+    //   excludeChunks: ['index'],
+    //   hash: true
+    // }),
     new HtmlWebpackPlugin({
-      title: 'output html',
-      filename: 'login.html',
+      title: 'index html',
+      filename: 'index.html',
       template: 'src/index.html',
+      excludeChunks: ['login'],
       hash: true
     }),
     new MiniCssExtractPlugin({

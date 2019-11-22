@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { render } from 'react-dom';
+import 'core-js/stable';
+import '@babel/runtime/regenerator';
 import Axios from 'axios';
 import './index.css';
 const NormalLoginForm = (props: any) => {
@@ -9,7 +12,13 @@ const NormalLoginForm = (props: any) => {
     props.form.validateFields(async (err: any, values: any) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        alert(await Axios.post('login', values));
+        try {
+          await Axios.post('login', values);
+          location.href = 'product_center';
+          // console.log(res);
+        } catch (e) {
+          alert('账号或密码错误');
+        }
       }
     });
   };
@@ -17,6 +26,7 @@ const NormalLoginForm = (props: any) => {
   const { getFieldDecorator } = props.form;
   return (
     <Form onSubmit={handleSubmit} className="login-form">
+      <h1>登陆</h1>
       <Form.Item>
         {getFieldDecorator('username', {
           rules: [{ required: true, message: '请输入用户名!' }]
@@ -47,4 +57,6 @@ const NormalLoginForm = (props: any) => {
   );
 };
 
-export default Form.create({ name: 'normal_login' })(NormalLoginForm);
+const App = Form.create({ name: 'normal_login' })(NormalLoginForm);
+
+render(<App />, document.querySelector('#root'));
