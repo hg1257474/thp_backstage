@@ -8,7 +8,7 @@ module.exports = {
   devtool: 'eval-source-map',
   mode: 'development',
   entry: {
-    // login: __dirname + '/src/login/index.tsx',
+    login: __dirname + '/src/login/index.tsx',
     index: __dirname + '/src/index.tsx'
   },
   output: {
@@ -40,17 +40,17 @@ module.exports = {
     ]
   },
   plugins: [
-    // new CleanWebpackPlugin(),
+    new CleanWebpackPlugin(),
     new ManifestPlugin(),
-    // new HtmlWebpackPlugin({
-    //   title: 'login html',
-    //   filename: 'login.html',
-    //   template: 'src/login.html',
-    //   excludeChunks: ['index'],
-    //   hash: true
-    // }),
     new HtmlWebpackPlugin({
-      title: 'index html',
+      title: '后台登陆',
+      filename: 'login.html',
+      template: 'src/login.html',
+      excludeChunks: ['index'],
+      hash: true
+    }),
+    new HtmlWebpackPlugin({
+      title: '后台管理',
       filename: 'index.html',
       template: 'src/index.html',
       excludeChunks: ['login'],

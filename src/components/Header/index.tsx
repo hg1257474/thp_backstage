@@ -4,12 +4,15 @@ import { useHistory } from 'react-router-dom';
 import { Menu } from 'antd';
 export default () => {
   const history = useHistory();
+  console.log('dsssssssssssssss');
+  console.log(history);
   return (
     <header>
       <Menu
+        defaultSelectedKeys={[history.location.pathname.split('/')[1]]}
         style={{ textAlign: 'center', background: 'white' }}
         mode="horizontal"
-        onClick={e => history.push(e.key)}
+        onClick={e => history.push(`/${e.key}`)}
       >
         <Menu.Item key="product_center">产品中心</Menu.Item>
         <Menu.Item key="product_specification">产品规格</Menu.Item>

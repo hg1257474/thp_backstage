@@ -38,7 +38,7 @@ export default (props: { match: Match }) => {
         return (
           <>
             <a href={`${target}/${id}`}>编辑</a>
-            <Divider />
+            <Divider type="vertical" />
             <Popconfirm
               title="您确定删除吗？"
               okText="确定"
@@ -68,9 +68,11 @@ export default (props: { match: Match }) => {
   }, [props.match.params.target]);
   return (
     <Table
+      rowKey="id"
       className="table-center"
       columns={columns}
       dataSource={data.content}
+      footer={() => <Button block>添加</Button>}
       pagination={{
         total: data.size,
         onChange(page) {

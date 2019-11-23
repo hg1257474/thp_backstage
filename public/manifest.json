@@ -1,9 +1,9 @@
 {
-  "index.js": "index4081ca2097604dd4d0f3.js",
-  "login.js": "login4081ca2097604dd4d0f3.js",
-  "vendors~index.js": "vendors~index4081ca2097604dd4d0f3.js",
-  "vendors~index~login.js": "vendors~index~login4081ca2097604dd4d0f3.js",
-  "vendors~login.js": "vendors~login4081ca2097604dd4d0f3.js",
+  "index.js": "indexfeb27afaac7da3b352dc.js",
+  "login.js": "loginfeb27afaac7da3b352dc.js",
+  "vendors~index.js": "vendors~indexfeb27afaac7da3b352dc.js",
+  "vendors~index~login.js": "vendors~index~loginfeb27afaac7da3b352dc.js",
+  "vendors~login.js": "vendors~loginfeb27afaac7da3b352dc.js",
   "index.html": "index.html",
   "login.html": "login.html"
 }
