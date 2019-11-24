@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Divider, Popconfirm } from 'antd';
 import Axios from 'axios';
-import { match } from 'react-router-dom';
+import { match, Router, Link } from 'react-router-dom';
 import './index.css';
 type Target =
   | 'product_center'
@@ -37,7 +37,7 @@ export default (props: { match: Match }) => {
       render(id: string) {
         return (
           <>
-            <a href={`${target}/${id}`}>编辑</a>
+            <Link to={{ pathname: `/${target}/${id}`, state: { max: 10 } }}>编辑</Link>
             <Divider type="vertical" />
             <Popconfirm
               title="您确定删除吗？"
