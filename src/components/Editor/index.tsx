@@ -1,18 +1,26 @@
 import ReactQuill from 'react-quill';
 import React, { useState, useEffect } from 'react';
 import 'react-quill/dist/quill.snow.css'; // ES6
-import { Form, Icon, Input, Button, Checkbox, Upload, InputNumber, DatePicker } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, InputNumber, DatePicker } from 'antd';
+import Upload from '../Upload';
 import Axios from 'axios';
 import './index.css';
 import { withRouter } from 'react-router';
-
+interface Data {
+  image_url?: string;
+  name: string;
+  description: string;
+  created_at?: string;
+  sequence?: number;
+  max?: number;
+}
 let hasInitialized = false;
 const Editor = (props: any) => {
   console.log(hasInitialized);
   console.log(props);
-  const { target } = props.match.params;
+  const { target, id } = props.match.params;
   const isListItem = ['product_specification', 'product_center'].indexOf(target) === -1;
-  const [data, setData] = useState({});
+  const [data, setData] = useState({} as Data);
   const handleSubmit = e => {
     e.preventDefault();
     props.form.validateFields(async (err: any, values: any) => {
@@ -39,7 +47,7 @@ const Editor = (props: any) => {
       [{ header: [1, 2, false] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-      ['link', 'image'],
+      ['link' /*, 'image'*/],
       ['clean']
     ]
   };
@@ -54,14 +62,14 @@ const Editor = (props: any) => {
     'list',
     'bullet',
     'indent',
-    'link',
-    'image'
+    'link'
+    // 'image'
   ];
   useEffect(() => {
     if (!hasInitialized)
       Axios.get(`${location.pathname}`, { params: { is_from_api: true } }).then(res => {
-        setData(res.data);
         hasInitialized = true;
+        setData(res.data);
       });
   });
 
@@ -69,10 +77,10 @@ const Editor = (props: any) => {
     <Form onSubmit={handleSubmit} className="editor-center">
       {!isListItem && (
         <Form.Item label="次序">
-          {getFieldDecorator('order', {
+          {getFieldDecorator('sequence', {
             rules: [{ required: true, message: '请输入次序!' }],
-            initialValue: data.order || data.max
-          })(<InputNumber min={1} max={data.max} />)}
+            initialValue: data.sequence || data.max + 1
+          })(<InputNumber min={1} max={data.sequence ? data.max : data.max + 1} />)}
         </Form.Item>
       )}
       {isListItem && (
@@ -83,7 +91,14 @@ const Editor = (props: any) => {
           })(<DatePicker />)}
         </Form.Item>
       )}
-
+      {!isListItem && (
+        <Form.Item label="列表图片">
+          {getFieldDecorator('image_url', {
+            rules: [{ required: true, message: '请上传列表图片!' }],
+            initialValue: data.image_url
+          })(<Upload />)}
+        </Form.Item>
+      )}
       <Form.Item label="名称">
         {getFieldDecorator('name', {
           initialValue: data.name || '',
@@ -92,10 +107,7 @@ const Editor = (props: any) => {
       </Form.Item>
       <Form.Item label="内容">
         {getFieldDecorator('description', {
-          initialValue:
-            "<img src='https://img30.360buyimg.com/shaidan/s616x405_jfs/t1/23795/14/8142/98137/5c87399bE755ac049/8881a25336d53c9b.jpg'/>" ||
-            data.description ||
-            '',
+          initialValue: data.description || '',
           rules: [{ required: true, message: '请输入内容!' }]
         })(<ReactQuill modules={my_modules} formats={my_formats} />)}
       </Form.Item>
@@ -112,11 +124,3 @@ const Editor = (props: any) => {
 };
 
 export default Form.create()(withRouter(Editor));
-/*
-      {!isListItem && (
-        <Form.Item label="列表图片">
-          {getFieldDecorator('image_url', {
-            rules: [{ required: true, message: '请上传列表图片!' }]
-          })(<Upload accept=".jpg,.png,.gif,.jpeg,.bmp,.webp"></Upload>)}
-        </Form.Item>
-      )} */

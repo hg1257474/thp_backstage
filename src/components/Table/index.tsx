@@ -37,7 +37,7 @@ export default (props: { match: Match }) => {
       render(id: string) {
         return (
           <>
-            <Link to={{ pathname: `/${target}/${id}`, state: { max: 10 } }}>编辑</Link>
+            <Link to={`/${target}/${id}`}>编辑</Link>
             <Divider type="vertical" />
             <Popconfirm
               title="您确定删除吗？"
@@ -72,7 +72,11 @@ export default (props: { match: Match }) => {
       className="table-center"
       columns={columns}
       dataSource={data.content}
-      footer={() => <Button block>添加</Button>}
+      footer={() => (
+        <Button block>
+          <Link to={`/${target}/new_item`}>添加</Link>
+        </Button>
+      )}
       pagination={{
         total: data.size,
         onChange(page) {
