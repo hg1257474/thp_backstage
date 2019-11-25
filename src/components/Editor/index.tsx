@@ -19,8 +19,12 @@ const Editor = (props: any) => {
       if (!err) {
         console.log('Received values of form: ', values);
         try {
-          await Axios.post('login', values);
-          location.href = 'product_center';
+          await Axios.request({
+            url: location.pathname,
+            data: values,
+            params: { is_from_api: true },
+            method: props.match.params.id === 'new_item' ? 'post' : 'put'
+          });
           // console.log(res);
         } catch (e) {
           alert('账号或密码错误');
@@ -88,7 +92,10 @@ const Editor = (props: any) => {
       </Form.Item>
       <Form.Item label="内容">
         {getFieldDecorator('description', {
-          initialValue: data.description || '',
+          initialValue:
+            "<img src='https://img30.360buyimg.com/shaidan/s616x405_jfs/t1/23795/14/8142/98137/5c87399bE755ac049/8881a25336d53c9b.jpg'/>" ||
+            data.description ||
+            '',
           rules: [{ required: true, message: '请输入内容!' }]
         })(<ReactQuill modules={my_modules} formats={my_formats} />)}
       </Form.Item>
