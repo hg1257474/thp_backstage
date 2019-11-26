@@ -1,7 +1,7 @@
 import ReactQuill from 'react-quill';
 import React, { useState, useEffect } from 'react';
 import 'react-quill/dist/quill.snow.css'; // ES6
-import { Form, Icon, Input, Button, Checkbox, InputNumber, DatePicker } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, InputNumber, DatePicker, Modal } from 'antd';
 import Upload from '../Upload';
 import Axios from 'axios';
 import * as Moment from 'moment';
@@ -34,6 +34,14 @@ const Editor = (props: any) => {
             params: { is_from_api: true },
             method: props.match.params.id === 'new_item' ? 'post' : 'put'
           });
+          Modal.success({
+            content: '提交成功',
+            okText: '知道了',
+            onOk: () => {
+              hi;
+            }
+          });
+
           // console.log(res);
         } catch (e) {
           alert('账号或密码错误');
@@ -117,10 +125,11 @@ const Editor = (props: any) => {
             })(<ReactQuill modules={my_modules} formats={my_formats} />)}
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
+            <Button type="primary" htmlType="submit" className="login-form-button" size="large">
               提交
             </Button>
-            <Button type="primary" className="login-form-button">
+
+            <Button style={{ display: 'none' }} type="primary" className="login-form-button">
               删除
             </Button>
           </Form.Item>

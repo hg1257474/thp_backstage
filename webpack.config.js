@@ -51,7 +51,7 @@ module.exports = {
     // }),
     new HtmlWebpackPlugin({
       title: '后台管理',
-      filename: 'index.html',
+      filename: 'index-template.html',
       template: 'src/index.html',
       excludeChunks: ['login'],
       hash: true
