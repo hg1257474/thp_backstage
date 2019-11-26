@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Divider, Popconfirm } from 'antd';
 import Axios from 'axios';
 import { match, Router, Link } from 'react-router-dom';
+import * as Moment from 'moment';
 import './index.css';
 type Target =
   | 'product_center'
@@ -16,12 +17,12 @@ interface DataType {
 interface Match extends match {
   params: { target: Target };
 }
+let current = 1;
 export default (props: { match: Match }) => {
   // const { target, haveTime } = props;
   const [data, setData] = useState<DataType>({ size: 0, content: [] });
   const { target } = props.match.params;
   const haveTime = ['product_specification', 'product_center'].indexOf(target) === -1;
-  let current = 1;
   console.log(props);
   const columns = [
     {
@@ -34,17 +35,25 @@ export default (props: { match: Match }) => {
       title: '操作',
       dataIndex: 'id',
       key: 'id',
-      render(id: string) {
+      render(id: string, record: never, index: number) {
         return (
           <>
-            <Link to={`/${target}/${id}`}>编辑</Link>
+            <Link to={`/${target}/${id}?sequence=${(current - 1) * 10 + index + 1}`}>编辑</Link>
             <Divider type="vertical" />
             <Popconfirm
               title="您确定删除吗？"
               okText="确定"
               cancelText="取消"
               onConfirm={() => {
-                console.log(props);
+                console.log('ojbk');
+                Axios.delete(`${props.match.params.target}/${id}`, {
+                  params: { is_from_api: true }
+                }).then(res => {
+                  if (res.data !== 'success') return;
+                  Axios.get(props.match.params.target, {
+                    params: { is_from_api: true, current }
+                  }).then(res => setData(res.data));
+                });
               }}
             >
               <Button type="link">删除</Button>
@@ -55,10 +64,13 @@ export default (props: { match: Match }) => {
     }
   ];
   if (haveTime)
-    columns.push({
+    columns.splice(1, 0, {
       title: '时间',
-      dataIndex: 'time',
-      key: 'time'
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render(date) {
+        return <span>{Moment(date).format('YYYY年M月D日')}</span>;
+      }
     });
   useEffect(() => {
     Axios.get(props.match.params.target, {
@@ -81,6 +93,9 @@ export default (props: { match: Match }) => {
         total: data.size,
         onChange(page) {
           current = page;
+          Axios.get(props.match.params.target, {
+            params: { is_from_api: true, current: page }
+          }).then(res => setData(res.data));
         }
       }}
     />

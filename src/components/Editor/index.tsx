@@ -4,10 +4,11 @@ import 'react-quill/dist/quill.snow.css'; // ES6
 import { Form, Icon, Input, Button, Checkbox, InputNumber, DatePicker } from 'antd';
 import Upload from '../Upload';
 import Axios from 'axios';
+import * as Moment from 'moment';
 import './index.css';
 import { withRouter } from 'react-router';
 interface Data {
-  image_url?: string;
+  image_uri?: string;
   name: string;
   description: string;
   created_at?: string;
@@ -40,7 +41,7 @@ const Editor = (props: any) => {
       }
     });
   };
-
+  const isLoading = !!!Object.keys(data).length;
   const { getFieldDecorator } = props.form;
   const my_modules = {
     toolbar: [
@@ -66,59 +67,65 @@ const Editor = (props: any) => {
     // 'image'
   ];
   useEffect(() => {
-    if (!hasInitialized)
+    if (true || !hasInitialized)
       Axios.get(`${location.pathname}`, { params: { is_from_api: true } }).then(res => {
         hasInitialized = true;
         setData(res.data);
       });
-  });
-
+  }, [target, id]);
+  console.log('isLoading', isLoading);
+  console.log(Moment());
   return (
     <Form onSubmit={handleSubmit} className="editor-center">
-      {!isListItem && (
-        <Form.Item label="次序">
-          {getFieldDecorator('sequence', {
-            rules: [{ required: true, message: '请输入次序!' }],
-            initialValue: data.sequence || data.max + 1
-          })(<InputNumber min={1} max={data.sequence ? data.max : data.max + 1} />)}
-        </Form.Item>
+      {!isLoading && (
+        <>
+          {!isListItem && (
+            <Form.Item label="次序">
+              {getFieldDecorator('sequence', {
+                rules: [{ required: true, message: '请输入次序!' }],
+                initialValue:
+                  id === 'new_item' ? data.max + 1 : location.search.match(/sequence=(.+)$/)[1]
+              })(<InputNumber min={1} max={id == 'new_item' ? data.max + 1 : data.max} />)}
+            </Form.Item>
+          )}
+          {isListItem && (
+            <Form.Item label="创建时间">
+              {getFieldDecorator('created_at', {
+                initialValue: Moment(data.created_at),
+                rules: [{ required: true, message: '请输入创建时间!' }]
+              })(<DatePicker />)}
+            </Form.Item>
+          )}
+          {!isListItem && (
+            <Form.Item label="列表图片">
+              {getFieldDecorator('image_uri', {
+                rules: [{ required: true, message: '请上传列表图片!' }],
+                initialValue: data.image_uri
+              })(<Upload />)}
+            </Form.Item>
+          )}
+          <Form.Item label="名称">
+            {getFieldDecorator('name', {
+              initialValue: data.name || '',
+              rules: [{ required: true, message: '请输入名称!' }]
+            })(<Input />)}
+          </Form.Item>
+          <Form.Item label="内容">
+            {getFieldDecorator('description', {
+              initialValue: data.description || '',
+              rules: [{ required: true, message: '请输入内容!' }]
+            })(<ReactQuill modules={my_modules} formats={my_formats} />)}
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="login-form-button">
+              提交
+            </Button>
+            <Button type="primary" className="login-form-button">
+              删除
+            </Button>
+          </Form.Item>
+        </>
       )}
-      {isListItem && (
-        <Form.Item label="创建时间">
-          {getFieldDecorator('created_at', {
-            initialValue: data.created_at || new Date(),
-            rules: [{ required: true, message: '请输入创建时间!' }]
-          })(<DatePicker />)}
-        </Form.Item>
-      )}
-      {!isListItem && (
-        <Form.Item label="列表图片">
-          {getFieldDecorator('image_url', {
-            rules: [{ required: true, message: '请上传列表图片!' }],
-            initialValue: data.image_url
-          })(<Upload />)}
-        </Form.Item>
-      )}
-      <Form.Item label="名称">
-        {getFieldDecorator('name', {
-          initialValue: data.name || '',
-          rules: [{ required: true, message: '请输入名称!' }]
-        })(<Input />)}
-      </Form.Item>
-      <Form.Item label="内容">
-        {getFieldDecorator('description', {
-          initialValue: data.description || '',
-          rules: [{ required: true, message: '请输入内容!' }]
-        })(<ReactQuill modules={my_modules} formats={my_formats} />)}
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          提交
-        </Button>
-        <Button type="primary" className="login-form-button">
-          删除
-        </Button>
-      </Form.Item>
     </Form>
   );
 };
