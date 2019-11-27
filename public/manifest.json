@@ -1,5 +1,8 @@
 {
-  "index.js": "indexb06eecfcd04946d9e3e8.js",
-  "vendors~index.js": "vendors~indexb06eecfcd04946d9e3e8.js",
-  "index-template.html": "index-template.html"
+  "index.js": "index2cc5c0a328db53b32527.js",
+  "login.js": "login2cc5c0a328db53b32527.js",
+  "vendors~index.js": "vendors~index2cc5c0a328db53b32527.js",
+  "vendors~index~login.js": "vendors~index~login2cc5c0a328db53b32527.js",
+  "index-template.html": "index-template.html",
+  "login.html": "login.html"
 }

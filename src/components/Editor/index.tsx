@@ -38,7 +38,7 @@ const Editor = (props: any) => {
             content: '提交成功',
             okText: '知道了',
             onOk: () => {
-              hi;
+              props.history.goBack();
             }
           });
 

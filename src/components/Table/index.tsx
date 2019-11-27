@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Divider, Popconfirm } from 'antd';
+import { Table, Button, Divider, Modal, Popconfirm } from 'antd';
 import Axios from 'axios';
 import { match, Router, Link } from 'react-router-dom';
 import * as Moment from 'moment';
@@ -50,9 +50,15 @@ export default (props: { match: Match }) => {
                   params: { is_from_api: true }
                 }).then(res => {
                   if (res.data !== 'success') return;
-                  Axios.get(props.match.params.target, {
-                    params: { is_from_api: true, current }
-                  }).then(res => setData(res.data));
+                  Modal.success({
+                    content: '删除成功',
+                    onOk: () => {
+                      Axios.get(props.match.params.target, {
+                        params: { is_from_api: true, current }
+                      }).then(res => setData(res.data));
+                    },
+                    okText: '知道了'
+                  });
                 });
               }}
             >
